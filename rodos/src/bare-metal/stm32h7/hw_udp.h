@@ -2,25 +2,15 @@
 /**
 * @file hw_udp.h
 * @date 2008/07/15 16:35
-* @author Sergio Montenegro, Lutz Dittrich
+* @author Sergio Montenegro
 *
-*
-* @brief UDP communication via sockets (Linux)
 */
+
+#include "topic.h"
 
 #pragma once
 
-#include <sys/types.h>
-#include <stddef.h>
-//#include <netinet/in.h>
-
-#include "hw_datatypes.h"
-#include "topic.h"
-
-
-#ifndef NO_RODOS_NAMESPACE
 namespace RODOS {
-#endif
 
 /**
 *  UDP interface for Linux platform, using sockets
@@ -33,88 +23,51 @@ namespace RODOS {
 class UDPReceiver {
 
 private:
-    int sock;
-    //sockaddr_in inputAddr;
-    bool enableMultiReader;
 
 public:
-    /** Constructor
-     * Warning: negative port number means more than one can receive on the same
-     * @param portNr port number on localhost used for reception , negative for broadcast
-     */
-    UDPReceiver(const int port);
-    /** Destructor */
-    ~UDPReceiver();
+    UDPReceiver([[gnu::unused]] const int port) { }
+    ~UDPReceiver()              { }
 
-    /** Opens a socket for UDP reception.
-     * On success attribute 'initialised' is set true.
-     * Warning: negative port number means more than one can receive on the same
-     * @param portNr port number on localhost, negative for broadcast
-     */
-    void reopen(const int port);
+    void reopen([[gnu::unused]] const int port) { }
  
-    void setAsync(Topic<GenericMsgRef>* associatedTopic);
+    void setAsync([[gnu::unused]] Topic<GenericMsgRef>* associatedTopic) { }
 
-    /**
-     * Receives data from Linux UDP socket. Writes data up to maxLen to userData.
-     * @param[IN/OUT] userData pointer to input buffer
-     * @param[IN] size of input buffer
-     * @return length of message written to userData
-     */
-    int32_t get(void* userData, const size_t maxLen=1300);
-    int32_t get(void* userData, size_t maxLen, uint32_t *ipaddr); // return number of bytes read, or 0, or < 0 if error
-    bool readyToGet();
-    bool isInitialised()    { return initialised; } // due to windows compatibility
-private:
-    bool initialised;
+    int32_t get([[gnu::unused]] void* userData, [[gnu::unused]] const size_t maxLen=1300)    { return 0; }
+    int32_t get([[gnu::unused]] void* userData, [[gnu::unused]] size_t maxLen, [[gnu::unused]] uint32_t *ipaddr) { return 0; }
+    bool readyToGet()                                           { return false;}
+    bool isInitialised()                                        { return true; } 
 };
 
 
 class UDPTransmitter {
 private:
-    int sock;
-    struct hostent* hp;
-   // sockaddr_in outputAddr;
-
-    bool enableBroadCast;
 
 public:
 
     /** init udp communication, can be re-called at any time
      ** WARNING: Negative port number means broadcast **/
 
-    UDPTransmitter(const int port,  const char *host = "localhost");
-    UDPTransmitter(const long _portNr, unsigned long _ipAddr); // _ipAddr as eg. 192.168.0.20
-    UDPTransmitter(const long _portNr, int ip0, int ip1, int ip2, int ip3);
-    virtual ~UDPTransmitter();
+    UDPTransmitter([[gnu::unused]] const int port,  [[gnu::unused]] const char *host = "localhost")         { }
+    UDPTransmitter([[gnu::unused]] const long _portNr, [[gnu::unused]] unsigned long _ipAddr)               { }
+    UDPTransmitter([[gnu::unused]] const long _portNr, [[gnu::unused]] int ip0, [[gnu::unused]] int ip1, [[gnu::unused]] int ip2, [[gnu::unused]] int ip3)  { }
+    virtual ~UDPTransmitter()                                               { }
 
-    void openConnection(const int port,  const char *host);
-
+    void openConnection([[gnu::unused]] const int port, [[gnu::unused]] const char *host)                  { }
 
     /** Send it as datagram containing "userdata", default length = all bytes
      * @param data pointer to datafield
      * @param length of data field
      */
-    virtual bool send(const void*msg, const size_t len);
+    virtual bool send([[gnu::unused]] const void*msg, [[gnu::unused]] const unsigned int len)               { return false; }
 
     /** Send datagram to a specified host different to the address used during initialisation
      * @param data pointer to datafield
      * @param length of data field
      * @param ipAddr of receiving host
      */
-    bool sendTo(const void* userData, const size_t maxLen, unsigned long ipAddr);
-    bool isInitialised()    { return initialised; } // due to windows compatibility
-private:
-    bool initialised;
+    bool sendTo([[gnu::unused]] const void* userData, [[gnu::unused]] const int maxLen, [[gnu::unused]] unsigned long ipAddr) { return false; }
+    bool isInitialised()                                                      { return true; } 
 };
-
-
-
-/********* Global Functions **************/
-
-bool setMyIP(int ip0, int ip1, int ip2, int ip3); // eg. setMyIP(192,168,20,10);
-bool setMyIPMask(int ip0, int ip1, int ip2, int ip3); // eg. setMyIPMask(255,255,0,0);
-
 
 } // namespace
 
