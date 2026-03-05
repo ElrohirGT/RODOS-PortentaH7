@@ -1,0 +1,9 @@
+ only one object in the buffer from 0 to max len
+ Store several (4) objects in buffer, and read all of them but do not overwrite old objects
+ Store many (20) objects in buffer to overwrite old objects, read until empty
+ Write 2, read one, keep the buffer full 
+ Write and read 4 object with even and odd len 
+
+
+ If you are reading this line, this means you can read and I found no disconformities
+hw_resetAndReboot() -> exit

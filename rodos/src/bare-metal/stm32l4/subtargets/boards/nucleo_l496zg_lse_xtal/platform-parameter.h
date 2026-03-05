@@ -1,0 +1,1 @@
+../nucleo_l496zg/platform-parameter.h

@@ -1,0 +1,11 @@
+
+Hi prio waits and then prints '+'
+
+Low prio begins printing '.'
+......
+Hi prio in busy waiting
++++++++++++++++++++++
+Hi prio in busy waiting in PRIORITY_FLOORING
+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.+.
+Hi prio ends
+hw_resetAndReboot() -> exit

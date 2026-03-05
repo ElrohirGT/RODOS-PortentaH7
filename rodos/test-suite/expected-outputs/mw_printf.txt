@@ -1,0 +1,221 @@
+local printf : 0
+17 bytes: remote printf: 0
+local printf : 1
+17 bytes: remote printf: 1
+local printf : 2
+17 bytes: remote printf: 2
+local printf : 3
+17 bytes: remote printf: 3
+local printf : 4
+17 bytes: remote printf: 4
+local printf : 5
+17 bytes: remote printf: 5
+local printf : 6
+17 bytes: remote printf: 6
+local printf : 7
+17 bytes: remote printf: 7
+local printf : 8
+17 bytes: remote printf: 8
+local printf : 9
+17 bytes: remote printf: 9
+local printf : 10
+18 bytes: remote printf: 10
+local printf : 11
+18 bytes: remote printf: 11
+local printf : 12
+18 bytes: remote printf: 12
+local printf : 13
+18 bytes: remote printf: 13
+local printf : 14
+18 bytes: remote printf: 14
+local printf : 15
+18 bytes: remote printf: 15
+local printf : 16
+18 bytes: remote printf: 16
+local printf : 17
+18 bytes: remote printf: 17
+local printf : 18
+18 bytes: remote printf: 18
+local printf : 19
+18 bytes: remote printf: 19
+local printf : 20
+18 bytes: remote printf: 20
+local printf : 21
+18 bytes: remote printf: 21
+local printf : 22
+18 bytes: remote printf: 22
+local printf : 23
+18 bytes: remote printf: 23
+local printf : 24
+18 bytes: remote printf: 24
+local printf : 25
+18 bytes: remote printf: 25
+local printf : 26
+18 bytes: remote printf: 26
+local printf : 27
+18 bytes: remote printf: 27
+local printf : 28
+18 bytes: remote printf: 28
+local printf : 29
+18 bytes: remote printf: 29
+local printf : 30
+18 bytes: remote printf: 30
+local printf : 31
+18 bytes: remote printf: 31
+local printf : 32
+18 bytes: remote printf: 32
+local printf : 33
+18 bytes: remote printf: 33
+local printf : 34
+18 bytes: remote printf: 34
+local printf : 35
+18 bytes: remote printf: 35
+local printf : 36
+18 bytes: remote printf: 36
+local printf : 37
+18 bytes: remote printf: 37
+local printf : 38
+18 bytes: remote printf: 38
+local printf : 39
+18 bytes: remote printf: 39
+local printf : 40
+18 bytes: remote printf: 40
+local printf : 41
+18 bytes: remote printf: 41
+local printf : 42
+18 bytes: remote printf: 42
+local printf : 43
+18 bytes: remote printf: 43
+local printf : 44
+18 bytes: remote printf: 44
+local printf : 45
+18 bytes: remote printf: 45
+local printf : 46
+18 bytes: remote printf: 46
+local printf : 47
+18 bytes: remote printf: 47
+local printf : 48
+18 bytes: remote printf: 48
+local printf : 49
+18 bytes: remote printf: 49
+local printf : 50
+18 bytes: remote printf: 50
+local printf : 51
+18 bytes: remote printf: 51
+local printf : 52
+18 bytes: remote printf: 52
+local printf : 53
+18 bytes: remote printf: 53
+local printf : 54
+18 bytes: remote printf: 54
+local printf : 55
+18 bytes: remote printf: 55
+local printf : 56
+18 bytes: remote printf: 56
+local printf : 57
+18 bytes: remote printf: 57
+local printf : 58
+18 bytes: remote printf: 58
+local printf : 59
+18 bytes: remote printf: 59
+local printf : 60
+18 bytes: remote printf: 60
+local printf : 61
+18 bytes: remote printf: 61
+local printf : 62
+18 bytes: remote printf: 62
+local printf : 63
+18 bytes: remote printf: 63
+local printf : 64
+18 bytes: remote printf: 64
+local printf : 65
+18 bytes: remote printf: 65
+local printf : 66
+18 bytes: remote printf: 66
+local printf : 67
+18 bytes: remote printf: 67
+local printf : 68
+18 bytes: remote printf: 68
+local printf : 69
+18 bytes: remote printf: 69
+local printf : 70
+18 bytes: remote printf: 70
+local printf : 71
+18 bytes: remote printf: 71
+local printf : 72
+18 bytes: remote printf: 72
+local printf : 73
+18 bytes: remote printf: 73
+local printf : 74
+18 bytes: remote printf: 74
+local printf : 75
+18 bytes: remote printf: 75
+local printf : 76
+18 bytes: remote printf: 76
+local printf : 77
+18 bytes: remote printf: 77
+local printf : 78
+18 bytes: remote printf: 78
+local printf : 79
+18 bytes: remote printf: 79
+local printf : 80
+18 bytes: remote printf: 80
+local printf : 81
+18 bytes: remote printf: 81
+local printf : 82
+18 bytes: remote printf: 82
+local printf : 83
+18 bytes: remote printf: 83
+local printf : 84
+18 bytes: remote printf: 84
+local printf : 85
+18 bytes: remote printf: 85
+local printf : 86
+18 bytes: remote printf: 86
+local printf : 87
+18 bytes: remote printf: 87
+local printf : 88
+18 bytes: remote printf: 88
+local printf : 89
+18 bytes: remote printf: 89
+local printf : 90
+18 bytes: remote printf: 90
+local printf : 91
+18 bytes: remote printf: 91
+local printf : 92
+18 bytes: remote printf: 92
+local printf : 93
+18 bytes: remote printf: 93
+local printf : 94
+18 bytes: remote printf: 94
+local printf : 95
+18 bytes: remote printf: 95
+local printf : 96
+18 bytes: remote printf: 96
+local printf : 97
+18 bytes: remote printf: 97
+local printf : 98
+18 bytes: remote printf: 98
+local printf : 99
+18 bytes: remote printf: 99
+local printf : 100
+19 bytes: remote printf: 100
+local printf : 101
+19 bytes: remote printf: 101
+local printf : 102
+19 bytes: remote printf: 102
+local printf : 103
+19 bytes: remote printf: 103
+local printf : 104
+19 bytes: remote printf: 104
+local printf : 105
+19 bytes: remote printf: 105
+local printf : 106
+19 bytes: remote printf: 106
+local printf : 107
+19 bytes: remote printf: 107
+local printf : 108
+19 bytes: remote printf: 108
+local printf : 109
+19 bytes: remote printf: 109
+hw_resetAndReboot() -> exit

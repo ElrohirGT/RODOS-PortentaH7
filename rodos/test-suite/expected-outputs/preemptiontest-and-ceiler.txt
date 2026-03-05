@@ -1,0 +1,19 @@
+ ceiler = '-'
+ lopri  = '.'
+ hipri  = '*'
+PreemptionTest found
+--------------- Application running ------------
+PriorityCeilerThread: waits for 3s
+*..........*..........*..........*..........*..........*..........*
+PriorityCeilerThread: 5s normal
+--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*
+PriorityCeilerThread: 3s with PRIORITY_CEILER_IN_SCOPE
+------------------------------------------------------------
+PriorityCeilerThread: yielding -> HighPriorityThread prints twice to make up for missed PRINTFs
+**
+PriorityCeilerThread: 5s normal
+--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*
+PriorityCeilerThread: 3s normal + suspending for 2s
+--..--..--*..--..--..*--..--..--*..--..--..*--..--..--*..--..--..*..........*..........*..........*..........*
+Test terminates
+hw_resetAndReboot() -> exit

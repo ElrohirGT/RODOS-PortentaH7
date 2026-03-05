@@ -1,0 +1,31 @@
+[TimeEventTest3::handle] TimeEvent at   0.012, reactivation in 0.02s
+[TimeEventTest1::handle] SINGLE TimeEvent at   0.025s
+[TimeEventTest3::handle] TimeEvent at   0.032, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.040s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.050s
+[TimeEventTest3::handle] TimeEvent at   0.052, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.060s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.070s
+[TimeEventTest3::handle] TimeEvent at   0.072, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.080s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.090s
+[TimeEventTest3::handle] TimeEvent at   0.092, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.100s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.110s
+[TimeEventTest3::handle] TimeEvent at   0.112, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.120s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.130s
+[TimeEventTest3::handle] TimeEvent at   0.132, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.140s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.150s
+[TimeEventTest3::handle] TimeEvent at   0.152, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.160s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.170s
+[TimeEventTest3::handle] TimeEvent at   0.172, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.180s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.190s
+[TimeEventTest3::handle] TimeEvent at   0.192, reactivation in 0.02s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.200s
+[TimeEventTest2::handle] Periodic TimeEvent at   0.210s
+Terminating
+hw_resetAndReboot() -> exit
