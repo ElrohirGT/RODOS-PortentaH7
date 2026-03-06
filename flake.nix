@@ -3,6 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    # Search for the "ref" field of a nix package here!
+    # https://lazamar.co.uk/nix-versions/
+    # gcc_nixpkgs.url = "github:nixos/nixpkgs?ref=253272ce9f1d83dfcd80946e63ef7c1d6171ba0e";
   };
 
   outputs = {nixpkgs, ...}: let
@@ -20,13 +23,21 @@
     in {
       default = pkgs.mkShell {
         packages = [
-          pkgs.pkgsi686Linux.gcc
+          # pkgs.pkgsi686Linux.gcc
           pkgs.gcc-arm-embedded-13
           pkgs.pkgsCross.arm-embedded.dfu-util
           pkgs.xc
-          pkgs.gnumake
           pkgs.bear
         ];
+
+        shellHook = ''
+          export CC=arm-none-eabi-gcc
+          export CXX=arm-none-eabi-g++
+          export AR=arm-none-eabi-ar
+          cd ./rodos/
+          source setenvs.sh
+          rodos-lib.sh cm4
+        '';
       };
     });
   };
