@@ -1,42 +1,85 @@
-/**
- * @file hw_specific.cc
- * @date 2008/04/23 7:33
- * @port 2010/02/18 19:14
- * @author Miroslaw Sulejczak, modified by Michael Ruffer
- *
- *
- * @brief all hardware specific stuff I have no better place for ...
- *
- */
-
-#include <sys/stat.h>
-
-#include "rodos.h"
-
-#include "default-platform-parameter.h"
 #include "hw_specific.h"
-#include "hal/hal_uart.h"
+#include "stm32h7xx.h"
+#include "thread.h"
 
-// #include "stm32h747xx.h"
-#include "stm32h7xx_hal.h"
-
-volatile long *contextT;
+extern volatile long *contextT;
 
 namespace RODOS {
+/* Constants required to set up the initial stack. */
+constexpr long INITIAL_XPSR = 0x01000000l;
+constexpr long INITIAL_EXEC_RETURN = static_cast<long>(0xfffffffdl);
 
-void TIMx_init(); // timer for system time -> see hw_timer.cpp
+/**
+ * hwInitContext()
+ * Identical stack frame layout to CM7 — both are ARMv7-M Thumb-2.
+ * The Cortex-M exception frame format is the same on CM4 and CM7.
+ */
+long* hwInitContext(long* stack, void* object) {
+    stack--;  // padding for 8-byte alignment
 
+    // Hardware exception frame
+    *stack-- = INITIAL_XPSR;                // xPSR  (Thumb bit set)
+    // *stack-- = (long)(threadStartupWrapper);  // PC
+	*stack-- = (long) (threadStartupWrapper);	// PC
+    *stack-- = INITIAL_EXEC_RETURN;               // LR    (EXC_RETURN: PSP, Thread, no FP)
+    *stack-- = 0;                           // R12
+    *stack-- = 0;                           // R3
+    *stack-- = 0;                           // R2
+    *stack-- = 0;                           // R1
+    *stack-- = (long)object;               // R0    (threadStartupWrapper argument)
+
+    // Software-saved callee registers R4–R11
+    for (int i = 0; i < 8; i++) {
+        *stack-- = 0;
+    }
+
+    return stack + 1;
+}
+}
+
+extern "C" {
+void __asmSwitchToContext(long* context) {
+	contextT = context;
+}
+
+void __asmSaveContextAndCallScheduler() {
+	/* Set a PendSV-interrupt to request a context switch. */
+	SCB->ICSR = SCB->ICSR | SCB_ICSR_PENDSVSET_Msk;
+}
+}
+
+extern "C" {
+
+/**
+ * hwInit()
+ * CM4-side hardware init. Much simpler than CM7:
+ * - No cache management (CM4 has no I/D cache)
+ * - FPU enable is still required
+ * - HAL_Init() re-initialises SysTick for this core
+ * - Clock config on CM4 is read-only: CM7 already set up the PLLs.
+ *   We only need to update SystemCoreClock for correct HAL tick math.
+ */
 void hwInit() {
-	__HAL_RCC_HSEM_CLK_ENABLE();
+    HAL_Init();   // SysTick + HAL tick at 1 ms for this core
 
-  // Update the SystemCoreClock variable.
-  SystemCoreClockUpdate();
-  HAL_Init();
+    // Enable FPU (same as CM7, each core must do this independently)
+    SCB->CPACR |= (0xF << 20);
+    __DSB();
+    __ISB();
 
-	TIMx_init(); // Timer for system time
+    // CM4 cannot configure PLLs (owned by CM7/RCC).
+    // Just update the CMSIS SystemCoreClock variable to match reality.
+    // Typical H747 CM4 max = 240 MHz
+    SystemCoreClockUpdate();
 }
 
-#ifndef NO_RODOS_NAMESPACE
-}
-#endif
 
+
+void hwResetAndReboot() {
+    NVIC_SystemReset();
+}
+
+void sp_partition_yield() { }
+void startIdleThread()    { }
+
+} // extern "C"
