@@ -36,7 +36,6 @@
           export AR=arm-none-eabi-ar
           cd ./rodos/
           source setenvs.sh
-          rodos-lib.sh cm4
         '';
       };
     });
