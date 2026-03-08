@@ -14,7 +14,6 @@
 #include "default-platform-parameter.h"
 
 #include "stm32h747xx.h"
-#include "stm32h7xx_hal_tim.h"
 #include "Legacy/stm32_hal_legacy.h"
 
 #ifndef NO_RODOS_NAMESPACE
