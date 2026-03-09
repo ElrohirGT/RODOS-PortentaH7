@@ -33,8 +33,6 @@
           export CC=arm-none-eabi-gcc
           export CXX=arm-none-eabi-g++
           export AR=arm-none-eabi-ar
-          cd ./rodos/
-          source setenvs.sh
         '';
       };
     });
