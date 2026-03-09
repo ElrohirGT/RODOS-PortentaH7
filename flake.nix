@@ -26,7 +26,6 @@
           # pkgs.pkgsi686Linux.gcc
           pkgs.gcc-arm-embedded-13
           pkgs.pkgsCross.arm-embedded.dfu-util
-          pkgs.xc
           pkgs.bear
         ];
 

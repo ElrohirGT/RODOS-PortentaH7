@@ -1,5 +1,3 @@
-[![xc compatible](https://xcfile.dev/badge.svg)](https://xcfile.dev)
-
 # RODOS-PortentaH7
 
 [Portenta H7](https://www.arduino.cc/pro/hardware/product/portenta-h7) is a high
