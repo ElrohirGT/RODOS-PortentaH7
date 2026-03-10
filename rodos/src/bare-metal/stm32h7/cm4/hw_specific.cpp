@@ -3,8 +3,6 @@
 #include <thread.h>
 #include <h7_modules.h>
 
-extern volatile long* contextT;
-
 namespace RODOS {
 /* Constants required to set up the initial stack. */
 constexpr long INITIAL_XPSR        = 0x01000000l;
@@ -35,15 +33,6 @@ long* hwInitContext(long* stack, void* object) {
     return stack + 1;
 }
 } // namespace RODOS
-
-extern "C" {
-void __asmSwitchToContext(long* context) { contextT = context; }
-
-void __asmSaveContextAndCallScheduler() {
-    /* Set a PendSV-interrupt to request a context switch. */
-    SCB->ICSR = SCB->ICSR | SCB_ICSR_PENDSVSET_Msk;
-}
-}
 
 extern "C" {
 

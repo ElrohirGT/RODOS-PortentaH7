@@ -49,10 +49,6 @@ long* hwInitContext(long* stack, void* object) {
 
 extern "C" {
 
-void Error_Handler() {
-    while(1) {}
-}
-
 /**
  * @brief  System Clock Configuration
  *         The system Clock is configured as follow :

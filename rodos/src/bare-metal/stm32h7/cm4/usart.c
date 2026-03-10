@@ -21,6 +21,8 @@
 #include <h7_modules.h>
 #include <stm32h747xx.h>
 
+UART_HandleTypeDef huart;
+
 /* UART4 init function */
 void MX_UART4_Init(void) {
     huart.Instance                    = UART4;

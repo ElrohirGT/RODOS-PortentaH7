@@ -36,8 +36,8 @@ export PATH=${PATH}:${QTZ_ROOT}/scripts/build-scripts
 
 cd rodos && source ./setenvs.sh && cd ..
 
-#complete -W "efr32fg1p gecko linux-x86 linux-makecontext on-posix on-posix64 on-posixmac sf2 discovery skith" rodos-lib.sh
-#complete -W "efr32fg1p gecko linux-x86 linux-makecontext on-posix on-posix64 on-posixmac sf2 discovery skith" rodos-executable.sh
+complete -W "cm4 cm7" qtz-lib.sh
+#complete -W "cm4 cm7" qtz-executable.sh
 
 echo "#--------------------------------------#"
 echo "| Usage: All commands start with qtz-  |"

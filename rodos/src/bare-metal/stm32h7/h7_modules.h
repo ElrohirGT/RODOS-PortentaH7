@@ -9,7 +9,7 @@ extern "C" {
 
 void Error_Handler(void);
 
-UART_HandleTypeDef huart;
+extern UART_HandleTypeDef huart;
 void MX_UART_Init(void);
 
 void MX_GPIO_Init(void);
