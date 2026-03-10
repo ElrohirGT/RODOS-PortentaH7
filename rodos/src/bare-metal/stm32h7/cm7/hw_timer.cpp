@@ -1,5 +1,6 @@
 #include "rodos.h"
 #include "stm32h7xx.h"
+#include <cstdint>
 
 static TIM_HandleTypeDef htim2;
 static volatile uint32_t timerOverflowCount = 0;   // counts TIM2 wrap-arounds
@@ -20,26 +21,26 @@ void hwInitTime() {
     // APB1 timer clock = 240 MHz on a typical H747 config
     // Prescaler: 240 - 1  →  1 MHz tick (1 tick = 1 µs)
     htim2.Instance               = TIM2;
-    hnim2.Init.Prescaler         = (SystemCoreClock / 2 / 1000000) - 1;
-    hnim2.Init.CounterMode       = TIM_COUNTERMODE_UP;
-    hnim2.Init.Period            = 0xFFFFFFFF;   // full 32-bit range
-    hnim2.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
-    hnim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-    HAL_TIM_Base_Init(&hnim2);
+    htim2.Init.Prescaler         = (SystemCoreClock / 2 / 1000000) - 1;
+    htim2.Init.CounterMode       = TIM_COUNTERMODE_UP;
+    htim2.Init.Period            = 0xFFFFFFFF;   // full 32-bit range
+    htim2.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
+    htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+    HAL_TIM_Base_Init(&htim2);
 
     // Enable update (overflow) interrupt to track 64-bit time
-    __HAL_TIM_ENABLE_IT(&hnim2, TIM_IT_UPDATE);
+    __HAL_TIM_ENABLE_IT(&htim2, TIM_IT_UPDATE);
     HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
-    HAL_TIM_Base_Start(&hnim2);
+    HAL_TIM_Base_Start(&htim2);
 }
 
 // ISR: increments overflow counter every ~4295 seconds (2^32 µs)
 extern "C" void TIM2_IRQHandler() {
-    if (__HAL_TIM_GET_FLAG(&hnim2, TIM_FLAG_UPDATE)) {
-        __HAL_TIM_CLEAR_FLAG(&hnim2, TIM_FLAG_UPDATE);
-        timerOverflowCount++;
+    if (__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE)) {
+        __HAL_TIM_CLEAR_FLAG(&htim2, TIM_FLAG_UPDATE);
+        timerOverflowCount+=1;
     }
 }
 
