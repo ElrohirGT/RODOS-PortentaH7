@@ -7,10 +7,10 @@
 namespace RODOS {
 int64_t Timer::microsecondsInterval = 0;
 
-void Timer::init()  { }
-void Timer::start() { }
-void Timer::stop()  { }
-void Timer::setInterval([[gnu::unused]] const int64_t microsecondsInterval) { }
+void Timer::init() {}
+void Timer::start() {}
+void Timer::stop() {}
+void Timer::setInterval([[gnu::unused]] const int64_t microsecondsInterval) {}
 
 
-}
+} // namespace RODOS

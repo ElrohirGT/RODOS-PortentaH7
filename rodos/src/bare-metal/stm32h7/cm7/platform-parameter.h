@@ -29,6 +29,6 @@
 /*************** I/O Configuration *********/
 
 #undef UART_HANDLE
-#define UART_HANDLE &huart
+#define UART_HANDLE &uart7
 #undef UART_TIMEOUT
 #define UART_TIMEOUT 0xFFFFFFFFULL // Max timeout
