@@ -4,7 +4,6 @@
 namespace RODOS {
 
 
-extern "C" {
 static TIM_HandleTypeDef htim2;
 static volatile uint32_t timerOverflowCount = 0; // counts TIM2 wrap-arounds
 
@@ -65,5 +64,4 @@ void TIM2_IRQHandler() {
         timerOverflowCount += 1;
     }
 }
-} // extern "C"
 } // namespace RODOS

@@ -48,9 +48,6 @@ long* hwInitContext(long* stack, void* object) {
 
 void sp_partition_yield() {} // bare-metal stub
 void startIdleThread() {}    // bare-metal stub
-} // namespace RODOS
-
-extern "C" {
 
 /**
  * @brief  System Clock Configuration
@@ -204,4 +201,4 @@ void hwInit() {
 void hwResetAndReboot() {
     NVIC_SystemReset(); // Cortex-M CMSIS call
 }
-} // extern "C"
+} // namespace RODOS

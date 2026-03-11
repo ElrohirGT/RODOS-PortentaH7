@@ -1,1 +1,4 @@
 *.o
+tst
+*.elf
+*.bin

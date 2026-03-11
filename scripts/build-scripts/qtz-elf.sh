@@ -9,9 +9,10 @@ if [ "$1" != "cm4" ] && [ "$1" != "cm7" ]; then
 	echo "ERROR: Invalid argument received!"
 	echo "- cm4"
 	echo "- cm7"
-	echo "Usage: qtz-elf.sh <arch>"
+	echo "Usage: qtz-elf.sh <arch> <...files to compile>"
 	exit
 fi
 
 # INCLUDES="-I $QTZ_RODOS/build/libs/$1"
 rodos-executable.sh $1 ${@:2}
+arm-none-eabi-objcopy -O binary tst tst.bin
