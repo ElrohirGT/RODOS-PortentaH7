@@ -13,11 +13,12 @@ if [ "$1" != "cm4" ] && [ "$1" != "cm7" ]; then
 	exit
 fi
 
-cd ./rodos
+PREVIOUS_DIR=$PWD
+cd $QTZ_ROOOS
 
 echo "#---------------------------------#"
 echo "|               $1               |"
 echo "#---------------------------------#"
 rodos-lib.sh "$1"
 
-cd ..
+cd $PREVIOUS_DIR
