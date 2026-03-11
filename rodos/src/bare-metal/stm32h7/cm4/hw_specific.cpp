@@ -32,6 +32,9 @@ long* hwInitContext(long* stack, void* object) {
 
     return stack + 1;
 }
+
+void sp_partition_yield() {}
+void startIdleThread() {}
 } // namespace RODOS
 
 extern "C" {
@@ -59,8 +62,5 @@ void hwInit() {
 
 
 void hwResetAndReboot() { NVIC_SystemReset(); }
-
-void sp_partition_yield() {}
-void startIdleThread() {}
 
 } // extern "C"

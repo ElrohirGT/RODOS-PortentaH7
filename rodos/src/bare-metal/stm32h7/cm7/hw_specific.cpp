@@ -45,6 +45,9 @@ long* hwInitContext(long* stack, void* object) {
     // Return pointer to current top-of-stack (what SP will be restored to)
     return stack + 1;
 }
+
+void sp_partition_yield() {} // bare-metal stub
+void startIdleThread() {}    // bare-metal stub
 } // namespace RODOS
 
 extern "C" {
@@ -201,8 +204,4 @@ void hwInit() {
 void hwResetAndReboot() {
     NVIC_SystemReset(); // Cortex-M CMSIS call
 }
-
-void sp_partition_yield() {} // bare-metal stub
-void startIdleThread() {}    // bare-metal stub
-
 } // extern "C"
