@@ -60,4 +60,6 @@ int puts(const char* str) {
 void abort(void);
 void abort(void) { while(1); }
 }
+
+void FFLUSH() {}
 } // namespace RODOS

@@ -1,9 +1,12 @@
 #include "rodos.h"
 #include "stm32h7xx.h"
-#include <cstdint>
 
+namespace RODOS {
+
+
+extern "C" {
 static TIM_HandleTypeDef htim2;
-static volatile uint32_t timerOverflowCount = 0;   // counts TIM2 wrap-arounds
+static volatile uint32_t timerOverflowCount = 0; // counts TIM2 wrap-arounds
 
 /**
  * hwInitTime()
@@ -13,8 +16,6 @@ static volatile uint32_t timerOverflowCount = 0;   // counts TIM2 wrap-arounds
  *
  * TIM2 on H747 sits on APB1 (max 240 MHz). We prescale to exactly 1 MHz.
  */
-
-
 void hwInitTime() {
     __HAL_RCC_TIM2_CLK_ENABLE();
 
@@ -23,7 +24,7 @@ void hwInitTime() {
     htim2.Instance               = TIM2;
     htim2.Init.Prescaler         = (SystemCoreClock / 2 / 1000000) - 1;
     htim2.Init.CounterMode       = TIM_COUNTERMODE_UP;
-    htim2.Init.Period            = 0xFFFFFFFF;   // full 32-bit range
+    htim2.Init.Period            = 0xFFFFFFFF; // full 32-bit range
     htim2.Init.ClockDivision     = TIM_CLOCKDIVISION_DIV1;
     htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
     HAL_TIM_Base_Init(&htim2);
@@ -34,14 +35,6 @@ void hwInitTime() {
     HAL_NVIC_EnableIRQ(TIM2_IRQn);
 
     HAL_TIM_Base_Start(&htim2);
-}
-
-// ISR: increments overflow counter every ~4295 seconds (2^32 µs)
-extern "C" void TIM2_IRQHandler() {
-    if (__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE)) {
-        __HAL_TIM_CLEAR_FLAG(&htim2, TIM_FLAG_UPDATE);
-        timerOverflowCount+=1;
-    }
 }
 
 /**
@@ -59,8 +52,18 @@ long long unsigned int hwGetNanoseconds() {
     do {
         overflow1 = timerOverflowCount;
         ticks     = TIM2->CNT;
-    } while (overflow1 != timerOverflowCount);
+    } while(overflow1 != timerOverflowCount);
 
     uint64_t microseconds = ((uint64_t)overflow1 << 32) | ticks;
-    return microseconds * 1000ULL;   // µs → ns
+    return microseconds * 1000ULL; // µs → ns
 }
+
+// ISR: increments overflow counter every ~4295 seconds (2^32 µs)
+void TIM2_IRQHandler() {
+    if(__HAL_TIM_GET_FLAG(&htim2, TIM_FLAG_UPDATE)) {
+        __HAL_TIM_CLEAR_FLAG(&htim2, TIM_FLAG_UPDATE);
+        timerOverflowCount += 1;
+    }
+}
+} // extern "C"
+} // namespace RODOS
