@@ -27,6 +27,7 @@
           pkgs.gcc-arm-embedded-13
           pkgs.pkgsCross.arm-embedded.dfu-util
           pkgs.bear
+          pkgs.screen
         ];
 
         shellHook = ''
