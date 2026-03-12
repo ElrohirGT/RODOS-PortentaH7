@@ -14,5 +14,6 @@ if [ "$1" != "cm4" ] && [ "$1" != "cm7" ]; then
 fi
 
 # INCLUDES="-I $QTZ_RODOS/build/libs/$1"
+# set -exu
 rodos-executable.sh $1 ${@:2}
 arm-none-eabi-objcopy -O binary tst tst.bin
