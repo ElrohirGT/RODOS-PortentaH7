@@ -1,6 +1,6 @@
 [
   {
-    "file": "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/CM7/main.cpp",
+    "file": "main.cpp",
     "arguments": [
       "arm-none-eabi-g++",
       "-g",
@@ -34,14 +34,20 @@
       "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/support/support-libs",
       "-I",
       "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7",
+      "-I",
+      "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/CMSIS/Device/ST/STM32H7xx/Include",
+      "-I",
+      "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/CMSIS/Core/Include",
+      "-I",
+      "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/hal/Inc",
       "-o",
       "tst",
-      "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/CM7/main.cpp",
+      "main.cpp",
       "-T/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/scripts/STM32H747XIHX_FLASH.ld",
       "-fno-unwind-tables",
       "-fno-asynchronous-unwind-tables"
     ],
-    "directory": "/home/elrohirgt/Documents/Development/RODOS-PortentaH7",
+    "directory": "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/CM7",
     "output": "tst"
   }
 ]

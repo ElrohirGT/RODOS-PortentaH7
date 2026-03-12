@@ -3,3 +3,4 @@
 tst
 *.elf
 *.bin
+.cache

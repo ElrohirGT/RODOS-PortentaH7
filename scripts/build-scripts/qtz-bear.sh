@@ -10,7 +10,7 @@ bear -o $RODOS_SRC/bare-metal/stm32h7/cm7/compile_commands.json -- qtz-lib.sh cm
 
 PREV=$PWD
 cd $QTZ_CM4
-bear -o compile_commands.json -- qtz-elf.sh cm4 main.cpp
+bear -o compile_commands.json -- qtz-elf.sh cm4 hal_led.cpp
 cd "$PREV"
 
 PREV=$PWD
