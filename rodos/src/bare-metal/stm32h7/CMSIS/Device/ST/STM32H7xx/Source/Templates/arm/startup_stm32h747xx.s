@@ -25,7 +25,7 @@
   */
 
   .syntax unified
-  .cpu cortex-m7
+  .cpu cortex-m4
   .fpu softvfp
   .thumb
 
@@ -96,7 +96,7 @@ LoopFillZerobss:
   bcc FillZerobss
 
 /* Call static constructors */
-/*    bl __libc_init_array */
+		bl __libc_init_array
 /* Call the application's entry point.*/
     bl  main
 LoopForever:

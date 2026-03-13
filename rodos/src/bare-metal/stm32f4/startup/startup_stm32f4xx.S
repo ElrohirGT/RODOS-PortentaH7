@@ -40,7 +40,7 @@
   /*.cpu cortex-m4
   .fpu softvfp
   .fpu fpv4-sp-d16
-  .thumb*/
+  .thumb */
 
 .global  g_pfnVectors
 .global  Default_Handler

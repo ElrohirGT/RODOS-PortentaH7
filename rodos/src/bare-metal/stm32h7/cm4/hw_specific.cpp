@@ -55,6 +55,18 @@ void hwInit() {
     // Initialize modules
     MX_GPIO_Init();
     MX_UART_Init();
+
+    // uint16_t      LED_B_Pin       = GPIO_PIN_7;
+    // GPIO_TypeDef* LED_B_GPIO_Port = GPIOK;
+    //
+    // GPIO_InitTypeDef GPIO_InitStructure;
+    // GPIO_InitStructure.Pin   = LED_B_Pin;
+    // GPIO_InitStructure.Mode  = GPIO_MODE_OUTPUT_PP;
+    // GPIO_InitStructure.Speed = GPIO_SPEED_LOW;
+    // HAL_GPIO_Init(LED_B_GPIO_Port, &GPIO_InitStructure);
+    // HAL_GPIO_WritePin(LED_B_GPIO_Port, LED_B_Pin, GPIO_PIN_SET);
+    //
+    // while(1) {}
 }
 
 

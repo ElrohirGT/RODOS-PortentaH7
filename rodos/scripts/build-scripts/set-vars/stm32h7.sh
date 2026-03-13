@@ -70,9 +70,9 @@ export LINKER_SCRIPT="${RODOS_ARCH_ROOT}/scripts/STM32H747XIHX_FLASH.ld"
 
 export CFLAGS_BASICS="${CFLAGS_BASICS_COMMON} -D${MCU_FLAG} -DSTM32H747xx -DUSE_HAL_DRIVER -DATOMIC_VARIANT=ATOMIC_VARIANT_STD_FALLBACK_CUSTOM"
 # NOTE: WITH gc-sections
-# export LINKFLAGS=" -T${LINKER_SCRIPT} -nostartfiles -nodefaultlibs -nostdlib -Xlinker --undefined=g_pfnVectors -Xlinker -L${RODOS_LIBS}/${TARGET_LIB} -Xlinker --gc-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -lrodos -lm"
+export LINKFLAGS=" -T${LINKER_SCRIPT} -nostartfiles -nodefaultlibs -nostdlib -Xlinker --undefined=g_pfnVectors -Xlinker -L${RODOS_LIBS}/${TARGET_LIB} -Xlinker --gc-sections -fno-unwind-tables -fno-asynchronous-unwind-tables -lrodos -lm"
 # NOTE: WITHOUT gc-sections
-export LINKFLAGS=" -T${LINKER_SCRIPT} -nostartfiles -nodefaultlibs -nostdlib -Xlinker --undefined=g_pfnVectors -Xlinker -L${RODOS_LIBS}/${TARGET_LIB} -fno-unwind-tables -fno-asynchronous-unwind-tables -lrodos -lm"
+# export LINKFLAGS=" -T${LINKER_SCRIPT} -nostartfiles -nodefaultlibs -nostdlib -Xlinker --undefined=g_pfnVectors -Xlinker -L${RODOS_LIBS}/${TARGET_LIB} -fno-unwind-tables -fno-asynchronous-unwind-tables -lrodos -lm"
 export CFLAGS=${CFLAGS}" ${CFLAGS_BASICS} ${HWCFLAGS} "
 export CPPFLAGS=${CPPFLAGS}" -Wno-register " # ignore register keyword in CMSIS header when included in cpp files
 
