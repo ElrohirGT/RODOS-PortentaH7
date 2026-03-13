@@ -15,5 +15,6 @@ fi
 
 # INCLUDES="-I $QTZ_RODOS/build/libs/$1"
 # set -exu
+# rodos-executable.sh $1 "$RODOS_SRC/bare-metal/stm32h7/CMSIS/Device/ST/STM32H7xx/Source/Templates/arm/startup_stm32h747xx.s" ${@:2}
 rodos-executable.sh $1 ${@:2}
 arm-none-eabi-objcopy -O binary tst tst.bin
