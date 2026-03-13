@@ -5,7 +5,13 @@ performance board released by [Arduino](https://www.arduino.cc).
 
 ## Getting Started
 
-Execute:
+Remember to use nix:
+
+```sh
+nix develop
+```
+
+And then execute:
 
 ```sh
 source ./setenvs.sh
