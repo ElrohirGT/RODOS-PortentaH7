@@ -39,13 +39,19 @@
       "-I",
       "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/CMSIS/Core/Include",
       "-I",
+      "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/rodos-hal",
+      "-I",
       "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/hal/Inc",
       "-o",
       "tst",
       "main.cpp",
       "-T/home/elrohirgt/Documents/Development/RODOS-PortentaH7/rodos/src/bare-metal/stm32h7/scripts/STM32H747XIHX_FLASH.ld",
       "-fno-unwind-tables",
-      "-fno-asynchronous-unwind-tables"
+      "-fno-asynchronous-unwind-tables",
+      "-mcpu=cortex-m4",
+      "-mfloat-abi=softfp",
+      "-mfpu=fpv4-sp-d16",
+      "-mthumb"
     ],
     "directory": "/home/elrohirgt/Documents/Development/RODOS-PortentaH7/CM7",
     "output": "tst"

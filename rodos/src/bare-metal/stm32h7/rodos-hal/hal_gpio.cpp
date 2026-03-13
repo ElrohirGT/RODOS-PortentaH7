@@ -1,7 +1,4 @@
 #include "hw_hal_gpio.h"
-#include <rodos.h>
-#include <hal/hal_gpio.h>
-#include <stm32h7xx.h>
 
 namespace RODOS {
 /***** class HW_HAL_GPIO *****/
@@ -11,10 +8,10 @@ HW_HAL_GPIO::HW_HAL_GPIO(GPIO_PIN pinIdx, uint8_t numOfPins, bool isOutput) : pi
     setPinMask();
     PORT = getSTM32Port(pinIdx);
 
-    GPIO_StructInit(&GPIO_InitStruct);
-    GPIO_InitStruct.GPIO_Pin   = pinMask;
-    GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStruct.GPIO_Mode  = GPIO_Mode_IN;
+    HAL_GPIO_Init(getSTM32Port(pinIdx), &GPIO_InitStruct);
+    GPIO_InitStruct.Pin   = pinMask;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Mode  = GPIO_MODE_INPUT;
 
     irqSensitivity       = GPIO_IRQ_SENS_BOTH;
     interruptEventOcured = false;
@@ -34,7 +31,8 @@ void HW_HAL_GPIO::setPinMask() {
 void HW_HAL_GPIO::EXTIRQHandler() {
     interruptEventOcured = true;
     hal_gpio->upCallDataReady();
-    EXTI->PR = 1u << (pinIdx % 16);
+    // FIXME: Should this be implemented somehow?
+    // EXTI->PR = 1u << (pinIdx % 16);
 }
 
 
@@ -48,23 +46,23 @@ uint8_t HW_HAL_GPIO::getGPIO_PinSource(uint32_t GPIO_Pin) {
 }
 
 
-uint32_t HW_HAL_GPIO::getRCC_APB1Periph_GPIOx(GPIO_TypeDef* port) {
-
-    switch((uint32_t)port) {
-        case GPIOA_BASE: return RCC_AHB1Periph_GPIOA;
-        case GPIOB_BASE: return RCC_AHB1Periph_GPIOB;
-        case GPIOC_BASE: return RCC_AHB1Periph_GPIOC;
-        case GPIOD_BASE: return RCC_AHB1Periph_GPIOD;
-        case GPIOE_BASE: return RCC_AHB1Periph_GPIOE;
-        case GPIOF_BASE: return RCC_AHB1Periph_GPIOF;
-        case GPIOG_BASE: return RCC_AHB1Periph_GPIOG;
-        case GPIOH_BASE: return RCC_AHB1Periph_GPIOH;
-        case GPIOI_BASE: return RCC_AHB1Periph_GPIOI;
-        case GPIOJ_BASE: return RCC_AHB1Periph_GPIOJ;
-        case GPIOK_BASE: return RCC_AHB1Periph_GPIOK;
-        default: return 0;
-    }
-}
+// uint32_t HW_HAL_GPIO::getRCC_APB1Periph_GPIOx(GPIO_TypeDef* port) {
+//
+//     switch((uint32_t)port) {
+//         case GPIOA_BASE: return RCC_AHB1Periph_GPIOA;
+//         case GPIOB_BASE: return RCC_AHB1Periph_GPIOB;
+//         case GPIOC_BASE: return RCC_AHB1Periph_GPIOC;
+//         case GPIOD_BASE: return RCC_AHB1Periph_GPIOD;
+//         case GPIOE_BASE: return RCC_AHB1Periph_GPIOE;
+//         case GPIOF_BASE: return RCC_AHB1Periph_GPIOF;
+//         case GPIOG_BASE: return RCC_AHB1Periph_GPIOG;
+//         case GPIOH_BASE: return RCC_AHB1Periph_GPIOH;
+//         case GPIOI_BASE: return RCC_AHB1Periph_GPIOI;
+//         case GPIOJ_BASE: return RCC_AHB1Periph_GPIOJ;
+//         case GPIOK_BASE: return RCC_AHB1Periph_GPIOK;
+//         default: return 0;
+//     }
+// }
 
 
 GPIO_TypeDef* HW_HAL_GPIO::getSTM32Port(GPIO_PIN pinIdx) {
@@ -86,10 +84,10 @@ GPIO_TypeDef* HW_HAL_GPIO::getSTM32Port(GPIO_PIN pinIdx) {
         return GPIOH;
     } else if(pinIdx < GPIO_144) {
         return GPIOI;
-    } else if(pinxIdx < GPIO_160) {
-        return GPIO_J;
-    } else if(pinxIdx <= GPIO_167) {
-        return GPIO_K;
+    } else if(pinIdx < GPIO_160) {
+        return GPIOJ;
+    } else if(pinIdx <= GPIO_167) {
+        return GPIOK;
     } else {
         return NULL;
     }
@@ -106,20 +104,20 @@ int32_t HW_HAL_GPIO::configureAFPin(GPIO_PIN pinIdx, uint8_t GPIO_AF_XXX) {
     GPIO_TypeDef* port = getSTM32Port(pinIdx);
     uint16_t      pin  = getSTM32Pin(pinIdx);
 
+    // FIXME: Should this pins be enabled?
     // Enable GPIO clock and release reset
-    RCC_AHB1PeriphClockCmd(getRCC_APB1Periph_GPIOx(port), ENABLE);
-    RCC_AHB1PeriphResetCmd(getRCC_APB1Periph_GPIOx(port), DISABLE);
-    GPIO_175
+    // RCC_AHB1PeriphClockCmd(getRCC_APB1Periph_GPIOx(port), ENABLE);
+    // RCC_AHB1PeriphResetCmd(getRCC_APB1Periph_GPIOx(port), DISABLE);
 
+    // FIXME: Is this necessary?
     // configure pin multiplexer -> choose alternate function (AF) UART
-    GPIO_PinAFConfig(port, getGPIO_PinSource(pin), GPIO_AF_XXX);
+    // GPIO_PinAFConfig(port, getGPIO_PinSource(pin), GPIO_AF_XXX);
 
     // configure pin
-    GPIO_InitTypeDef Gis;
-    GPIO_StructInit(&Gis);
-    Gis.GPIO_Mode = GPIO_Mode_AF;
-    Gis.GPIO_Pin  = pin;
-    GPIO_Init(port, &Gis);
+    GPIO_InitTypeDef Gis = { 0 };
+    Gis.Mode             = GPIO_MODE_AF_OD;
+    Gis.Pin              = pin;
+    HAL_GPIO_Init(port, &Gis);
 
     return 0;
 }
@@ -128,37 +126,81 @@ int32_t HW_HAL_GPIO::configureAFPin(GPIO_PIN pinIdx, uint8_t GPIO_AF_XXX) {
 int32_t HW_HAL_GPIO::resetPin(GPIO_PIN pinIdx) {
     if(pinIdx < GPIO_000 || pinIdx > GPIO_167) return -1;
 
-    GPIO_InitTypeDef Gis;
-    GPIO_StructInit(&Gis);
-    Gis.GPIO_Mode = GPIO_Mode_IN;
-
-    Gis.GPIO_Pin = getSTM32Pin(pinIdx);
-    GPIO_Init(getSTM32Port(pinIdx), &Gis);
+    GPIO_InitTypeDef Gis = { 0 };
+    Gis.Mode             = GPIO_MODE_INPUT;
+    Gis.Pin              = getSTM32Pin(pinIdx);
+    HAL_GPIO_Init(getSTM32Port(pinIdx), &Gis);
 
     return 0;
 }
 /***** END class HW_HAL_GPIO *****/
 
+void initEXTInterrupts() {
+    static bool init = false;
+    if(!init) {
+        init = true;
+
+        // FIXME: Again, how do we enable this? Should we?
+        // RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+
+        HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI3_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI4_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+        HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+    }
+}
+
+HAL_GPIO::HAL_GPIO(GPIO_PIN pinIdx) {
+    // context = new HW_HAL_GPIO(pinIdx,1,false);
+    context           = (HW_HAL_GPIO*)xmalloc(sizeof(HW_HAL_GPIO)); // dynamic memory allocation with RODOS function
+    context           = new(context) HW_HAL_GPIO(pinIdx, 1, false); // placement new to call constructor
+    context->hal_gpio = this;
+}
+
+int32_t HAL_GPIO::init(bool isOutput, uint8_t numOfPins, uint32_t initVal) {
+    if(numOfPins > 0) context->numOfPins = numOfPins; // numOfPins has to be > 0 -> if new value is 0 keep the default value
+
+    context->isOutput = isOutput;
+    context->setPinMask();
+
+    if(context->PORT == NULL) return -1;
+
+    // FIXME: Should we enable this? How?
+    // RCC_AHB1PeriphClockCmd(HW_HAL_GPIO::getRCC_APB1Periph_GPIOx(context->PORT), ENABLE);
+
+    if(context->isOutput) {
+        config(GPIO_CFG_OUTPUT_ENABLE, 1);
+        setPins(initVal);
+    } else {
+        config(GPIO_CFG_OUTPUT_ENABLE, 0);
+    }
+
+    initEXTInterrupts();
+    return 0;
+}
 
 int32_t HAL_GPIO::config(GPIO_CFG_TYPE type, uint32_t paramVal) {
     switch(type) {
         case GPIO_CFG_OUTPUT_ENABLE:
             if(paramVal > 0) {
-                context->isOutput                  = true;
-                context->GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
+                context->isOutput             = true;
+                context->GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
             } else {
-                context->isOutput                  = false;
-                context->GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN;
+                context->isOutput             = false;
+                context->GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
             }
-            GPIO_Init(context->PORT, &context->GPIO_InitStruct);
+            HAL_GPIO_Init(context->PORT, &context->GPIO_InitStruct);
             return 0;
 
         case GPIO_CFG_NUM_OF_PINS:
             if(paramVal > 0 && paramVal < 256) { // numOfPins has to be > 0 and < 256 -> uint8_t
                 context->numOfPins = static_cast<uint8_t>(paramVal);
                 context->setPinMask();
-                context->GPIO_InitStruct.GPIO_Pin = context->pinMask;
-                GPIO_Init(context->PORT, &context->GPIO_InitStruct);
+                context->GPIO_InitStruct.Pin = context->pinMask;
+                HAL_GPIO_Init(context->PORT, &context->GPIO_InitStruct);
                 return 0;
             }
             return -1;
@@ -166,11 +208,11 @@ int32_t HAL_GPIO::config(GPIO_CFG_TYPE type, uint32_t paramVal) {
         case GPIO_CFG_PULLUP_ENABLE:
             if(paramVal > 0) {
                 if(paramVal) {
-                    context->GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+                    context->GPIO_InitStruct.Pull = GPIO_PULLUP;
                 } else {
-                    context->GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
+                    context->GPIO_InitStruct.Pull = GPIO_NOPULL;
                 }
-                GPIO_Init(context->PORT, &context->GPIO_InitStruct);
+                HAL_GPIO_Init(context->PORT, &context->GPIO_InitStruct);
                 return 0;
             }
             return -1;
@@ -178,11 +220,11 @@ int32_t HAL_GPIO::config(GPIO_CFG_TYPE type, uint32_t paramVal) {
         case GPIO_CFG_PULLDOWN_ENABLE:
             if(paramVal > 0) {
                 if(paramVal) {
-                    context->GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_DOWN;
+                    context->GPIO_InitStruct.Pull = GPIO_PULLDOWN;
                 } else {
-                    context->GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
+                    context->GPIO_InitStruct.Pull = GPIO_NOPULL;
                 }
-                GPIO_Init(context->PORT, &context->GPIO_InitStruct);
+                HAL_GPIO_Init(context->PORT, &context->GPIO_InitStruct);
                 return 0;
             }
             return -1;
@@ -199,7 +241,7 @@ int32_t HAL_GPIO::config(GPIO_CFG_TYPE type, uint32_t paramVal) {
 }
 
 void HAL_GPIO::reset() {
-    interruptEnable(false);
+    // interruptEnable(false);
     //    config(GPIO_CFG_OUTPUT_ENABLE, 0);                                                  already done in resetPin()
     //    GPIO_DeInit(context->PORT);                                                         !!! we can not disable the whole port
     //    RCC_AHB1PeriphClockCmd(context->getRCC_APB1Periph_GPIOx(context->PORT), DISABLE);   !!! we can not disable the whole port
@@ -207,62 +249,69 @@ void HAL_GPIO::reset() {
 }
 
 void HAL_GPIO::setPins(uint32_t val) {
-    uint16_t newPinVal = 0;
-
     if(context->isOutput) {
         PRIORITY_CEILER_IN_SCOPE();
         // read the whole port, change only the selected pins and write the value
-        newPinVal = static_cast<uint16_t>(GPIO_ReadOutputData(context->PORT) & ~context->pinMask); // get current pinvalues of whole port and clear pinvalues we want to set new
-        newPinVal = static_cast<uint16_t>(newPinVal | ((val << (context->pinIdx & 0x0F)) & context->pinMask)); // set new pinvalues
-        GPIO_Write(context->PORT, newPinVal);
+        // newPinVal = static_cast<uint16_t>(GPIO_ReadOutputData(context->PORT) & ~context->pinMask); // get current pinvalues of whole port and clear pinvalues we want to set new
+        // newPinVal = static_cast<uint16_t>(newPinVal | ((val << (context->pinIdx & 0x0F)) & context->pinMask)); // set new pinvalues
+        // GPIO_Write(context->PORT, newPinVal);
+
+        uint16_t pin = context->getSTM32Pin(context->pinIdx);
+        if(val == 0) {
+            HAL_GPIO_WritePin(context->PORT, pin, GPIO_PIN_RESET);
+        } else {
+            HAL_GPIO_WritePin(context->PORT, pin, GPIO_PIN_SET);
+        }
     }
 }
 
 uint32_t HAL_GPIO::readPins() {
-    if(context->isOutput) { return static_cast<uint32_t>(GPIO_ReadOutputData(context->PORT) & context->pinMask) >> (context->pinIdx & 0xF); }
-    return static_cast<uint32_t>(GPIO_ReadInputData(context->PORT) & context->pinMask) >> (context->pinIdx & 0xF);
+    uint16_t pin = context->getSTM32Pin(context->pinIdx);
+    return HAL_GPIO_ReadPin(context->PORT, pin);
+    // if(context->isOutput) { return static_cast<uint32_t>(GPIO_ReadOutputData(context->PORT) & context->pinMask) >> (context->pinIdx & 0xF); }
+    // return static_cast<uint32_t>(GPIO_ReadInputData(context->PORT) & context->pinMask) >> (context->pinIdx & 0xF);
 }
 
 bool HAL_GPIO::isDataReady() { return context->interruptEventOcured; }
 
 // When rising and/or falling edge occures dataReady() == true
-void HAL_GPIO::interruptEnable(bool enable) {
-    if(context->pinIdx == GPIO_INVALID) { return; }
-
-    uint8_t portNum = static_cast<uint8_t>(context->pinIdx / 16);
-    uint8_t pinNum  = static_cast<uint8_t>(context->pinIdx % 16);
-    int32_t exti    = pinNum;
-
-    if(enable) { // enable Interrupt
-        if(extInterruptLines[exti] == context) {
-            return; // Already enabled
-        } else if(extInterruptLines[exti] == 0) {
-            RODOS_ASSERT_IFNOT_RETURN_VOID(context->numOfPins <= 1); // IRQ not possible with numOfPins > 1
-
-            SYSCFG_EXTILineConfig(portNum, pinNum);
-
-            if(context->irqSensitivity == GPIO_IRQ_SENS_RISING || context->irqSensitivity == GPIO_IRQ_SENS_BOTH) { EXTI->RTSR = EXTI->RTSR | 1lu << pinNum; }
-            if(context->irqSensitivity == GPIO_IRQ_SENS_FALLING || context->irqSensitivity == GPIO_IRQ_SENS_BOTH) { EXTI->FTSR = EXTI->FTSR | 1lu << pinNum; }
-
-            extInterruptLines[exti]       = context;
-            context->interruptEventOcured = false;
-            EXTI->IMR                     = EXTI->IMR | (1lu << pinNum);
-
-        } else {
-            RODOS_ERROR("External IRQ Line already used by another HAL_GPIO");
-            return;
-        }
-
-
-    } else { // disable Interrupt
-        if(extInterruptLines[exti] == context) {
-            EXTI->IMR               = EXTI->IMR & ~(1lu << pinNum);
-            EXTI->RTSR              = EXTI->RTSR & ~(1lu << pinNum);
-            EXTI->FTSR              = EXTI->FTSR & ~(1lu << pinNum);
-            extInterruptLines[exti] = 0;
-        }
-    }
-}
+// void HAL_GPIO::interruptEnable(bool enable) {
+//     if(context->pinIdx == GPIO_INVALID) { return; }
+//
+//     uint8_t portNum = static_cast<uint8_t>(context->pinIdx / 16);
+//     uint8_t pinNum  = static_cast<uint8_t>(context->pinIdx % 16);
+//     int32_t exti    = pinNum;
+//
+//     if(enable) { // enable Interrupt
+//         if(extInterruptLines[exti] == context) {
+//             return; // Already enabled
+//         } else if(extInterruptLines[exti] == 0) {
+//             RODOS_ASSERT_IFNOT_RETURN_VOID(context->numOfPins <= 1); // IRQ not possible with numOfPins > 1
+//
+//             SYSCFG_EXTILineConfig(portNum, pinNum);
+//
+//             if(context->irqSensitivity == GPIO_IRQ_SENS_RISING || context->irqSensitivity == GPIO_IRQ_SENS_BOTH) { EXTI->RTSR = EXTI->RTSR | 1lu << pinNum; }
+//             if(context->irqSensitivity == GPIO_IRQ_SENS_FALLING || context->irqSensitivity == GPIO_IRQ_SENS_BOTH) { EXTI->FTSR = EXTI->FTSR | 1lu << pinNum; }
+//
+//             extInterruptLines[exti]       = context;
+//             context->interruptEventOcured = false;
+//             EXTI->IMR                     = EXTI->IMR | (1lu << pinNum);
+//
+//         } else {
+//             RODOS_ERROR("External IRQ Line already used by another HAL_GPIO");
+//             return;
+//         }
+//
+//
+//     } else { // disable Interrupt
+//         if(extInterruptLines[exti] == context) {
+//             EXTI->IMR               = EXTI->IMR & ~(1lu << pinNum);
+//             EXTI->RTSR              = EXTI->RTSR & ~(1lu << pinNum);
+//             EXTI->FTSR              = EXTI->FTSR & ~(1lu << pinNum);
+//             extInterruptLines[exti] = 0;
+//         }
+//     }
+// }
 
 // dataReady == false
 void HAL_GPIO::resetInterruptEventStatus() { context->interruptEventOcured = false; }

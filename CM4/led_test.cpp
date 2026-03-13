@@ -1,7 +1,7 @@
 #include <rodos.h> // includes the RODOS API
 static Application module01("LED_Test", 2003);
 
-HAL_GPIO ledBlue(GPIO_007);
+HAL_GPIO ledBlue(GPIO_167);
 
 class LEDTest : public StaticThread<> { // defines a Thread named HelloWorld
   void init() { ledBlue.init(true); }
