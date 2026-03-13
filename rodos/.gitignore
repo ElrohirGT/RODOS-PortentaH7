@@ -3,7 +3,7 @@
 .vscode/
 .cache/
 .clangd
-build*/
+build/
 CMakeLists.txt.user
 CMakeUserPresets.json
 compile_commands.json
